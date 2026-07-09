@@ -6,14 +6,14 @@ import { fallbackBrief } from "../data/floodFallback";
 function StatusBadge({ isLive }: { isLive: boolean }) {
   if (isLive) {
     return (
-      <span className="flex shrink-0 items-center gap-1.5 rounded-full bg-danger px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-ink">
+      <span className="flex shrink-0 items-center gap-1.5 rounded-full bg-danger px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-ink shadow-[0_0_14px_rgba(255,92,102,0.4)]">
         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-ink" />
         Live
       </span>
     );
   }
   return (
-    <span className="flex shrink-0 items-center gap-1.5 rounded-full bg-amber px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-ink">
+    <span className="flex shrink-0 items-center gap-1.5 rounded-full bg-amber px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-ink shadow-[0_0_14px_rgba(255,138,61,0.35)]">
       <span className="h-1.5 w-1.5 rounded-full bg-ink" />
       Verified
     </span>
@@ -79,7 +79,7 @@ export function DisasterBanner() {
     <div className="relative">
       {/* Mobile: short, well-defined rectangular card */}
       <div className="px-3 pt-2 sm:hidden">
-        <div className="rounded-lg border border-danger/30 bg-danger/10">
+        <div className="glass-panel rounded-lg border-danger/25">
           <div className="flex items-center gap-2 px-2.5 py-2">
             <StatusBadge isLive={isLive} />
 
@@ -134,7 +134,7 @@ export function DisasterBanner() {
       </div>
 
       {/* Desktop: full-width live ticker */}
-      <div className="hidden overflow-hidden border-y border-danger/30 bg-danger/10 sm:block">
+      <div className="hidden overflow-hidden border-y border-danger/25 bg-danger/[0.07] backdrop-blur-sm sm:block">
         <div className="flex items-center gap-3 px-4 py-2">
           <StatusBadge isLive={isLive} />
 
@@ -205,12 +205,12 @@ export function DisasterBanner() {
 
 function CrisisBrief() {
   return (
-    <div className="mt-2 rounded-lg border border-danger/25 bg-ink-2/60 p-3.5 text-[13px] leading-relaxed sm:mt-0 sm:rounded-none sm:border-none sm:bg-transparent sm:p-0 light:bg-paper-2/60">
+    <div className="glass-panel mt-2 rounded-lg p-3.5 text-[13px] leading-relaxed sm:mt-0 sm:rounded-none sm:border-none sm:bg-transparent sm:p-0 sm:[backdrop-filter:none]">
       <p className="mb-3 max-w-3xl text-mist light:text-ink-2">{fallbackBrief.headline}</p>
 
       <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
         {fallbackBrief.keyFacts.map((f) => (
-          <div key={f.label} className="rounded-lg border border-teal-dim/25 bg-ink-2/70 p-2.5 light:bg-paper-2/70">
+          <div key={f.label} className="rounded-lg border border-white/10 bg-black/20 p-2.5 light:border-black/10 light:bg-white/40">
             <div className="font-mono text-lg font-semibold text-danger">{f.value}</div>
             <div className="mt-0.5 text-[11px] font-medium text-paper light:text-ink">{f.label}</div>
             <div className="text-[10px] text-mist/60 light:text-ink-2/60">{f.note}</div>

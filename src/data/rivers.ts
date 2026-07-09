@@ -7,9 +7,9 @@ export const rivers: River[] = [
     shortName: "Odaw",
     waterBody: "River",
     area: "Ashongman / Achimota corridor, Accra",
-    then: { src: "/images/odaw-river-then-2007.jpg", year: 2007, width: 1280, height: 634 },
-    now: { src: "/images/odaw-river-now-2026.jpg", year: 2026, width: 1280, height: 632 },
-    aspectRatio: 1280 / 634,
+    then: { src: "/images/odaw-river-then-2007.jpg", year: 2007, width: 1600, height: 719 },
+    now: { src: "/images/odaw-river-now-2026.jpg", year: 2026, width: 1600, height: 753 },
+    aspectRatio: 1600 / 719,
     summary:
       "The Odaw is Accra's principal drainage channel, carrying storm-water from the northern suburbs through the city centre before emptying into the Korle Lagoon. Imagery of this upstream reach shows farmland and scattered compounds giving way to dense, tightly packed housing that now presses directly against the watercourse.",
     causes: [
@@ -74,9 +74,9 @@ export const rivers: River[] = [
     shortName: "Chemu",
     waterBody: "Lagoon",
     area: "Tema, Greater Accra",
-    then: { src: "/images/chemu-lagoon-then-2003.jpg", year: 2003, width: 1280, height: 603 },
-    now: { src: "/images/chemu-lagoon-now-2024.jpg", year: 2024, width: 1280, height: 617 },
-    aspectRatio: 1280 / 603,
+    then: { src: "/images/chemu-lagoon-then-2015.jpg", year: 2015, width: 1600, height: 678 },
+    now: { src: "/images/chemu-lagoon-now-2024.jpg", year: 2024, width: 1600, height: 673 },
+    aspectRatio: 1600 / 678,
     summary:
       "Chemu Lagoon sits inside Tema's industrial harbour city, hemmed in by factories, fuel depots and dense housing. Between the two captures, the surrounding built footprint thickens noticeably while the lagoon channel itself grows narrower and darker, consistent with long-standing reports of industrial effluent and waste discharge.",
     causes: [
@@ -105,9 +105,9 @@ export const rivers: River[] = [
     shortName: "Densu",
     waterBody: "River",
     area: "Peri-urban Ga West / Weija corridor, Accra",
-    then: { src: "/images/densu-river-then-2009.jpg", year: 2009, width: 1280, height: 640 },
-    now: { src: "/images/densu-river-now-2024.jpg", year: 2024, width: 1280, height: 629 },
-    aspectRatio: 1280 / 640,
+    then: { src: "/images/densu-river-then-2011.jpg", year: 2011, width: 1600, height: 728 },
+    now: { src: "/images/densu-river-now-2026.jpg", year: 2026, width: 1600, height: 750 },
+    aspectRatio: 1600 / 728,
     summary:
       "The Densu feeds the Weija reservoir, a major source of drinking water for Accra, and its delta is a Ramsar-listed wetland. This stretch shows open farmland and green wetland replaced by tightly gridded residential development, a pattern typical of Accra's fast-growing western suburbs.",
     causes: [
@@ -172,9 +172,9 @@ export const rivers: River[] = [
     shortName: "Lafa Stream",
     waterBody: "Stream",
     area: "Awoshie / Ablekuma, Accra",
-    then: { src: "/images/awoshie-lafa-stream-then-2002.jpg", year: 2002, width: 1280, height: 631 },
-    now: { src: "/images/awoshie-lafa-stream-now-2022.jpg", year: 2022, width: 1280, height: 602 },
-    aspectRatio: 1280 / 631,
+    then: { src: "/images/awoshie-lafa-stream-then-2019.jpg", year: 2019, width: 1600, height: 724 },
+    now: { src: "/images/awoshie-lafa-stream-now-2022.jpg", year: 2022, width: 1600, height: 724 },
+    aspectRatio: 1600 / 724,
     summary:
       "The Lafa Stream runs through the densely populated Awoshie and Ablekuma neighbourhoods, an area with a long record of flash flooding. The comparison shows its natural green buffer, visible in the earlier capture, almost entirely replaced by continuous rooftops pressed against the watercourse.",
     causes: [

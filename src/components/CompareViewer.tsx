@@ -33,16 +33,16 @@ export function CompareViewer({ river }: { river: River }) {
     <div>
       {/* Mode toolbar */}
       <div className="mb-3 flex flex-wrap items-center gap-2">
-        <div className="flex flex-wrap gap-1.5 rounded-lg border border-teal-dim/30 bg-ink-2/60 p-1 light:bg-paper-2/60">
+        <div className="glass-panel flex flex-wrap gap-1.5 rounded-lg p-1">
           {MODES.map((m) => (
             <button
               key={m.id}
               onClick={() => setMode(m.id)}
               aria-pressed={mode === m.id}
-              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 font-mono text-[11px] uppercase tracking-wide transition-colors ${
+              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 font-mono text-[11px] uppercase tracking-wide transition-all ${
                 mode === m.id
-                  ? "bg-teal text-ink"
-                  : "text-mist hover:bg-ink-3 light:text-ink-2 light:hover:bg-paper-3"
+                  ? "bg-teal text-ink shadow-[0_0_14px_rgba(0,209,255,0.35)]"
+                  : "text-mist hover:bg-white/5 hover:text-teal light:text-ink-2 light:hover:bg-black/5"
               }`}
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -53,11 +53,11 @@ export function CompareViewer({ river }: { river: River }) {
           ))}
         </div>
 
-        <div className="ml-auto flex items-center gap-1.5 rounded-lg border border-teal-dim/30 bg-ink-2/60 p-1 light:bg-paper-2/60">
+        <div className="glass-panel ml-auto flex items-center gap-1.5 rounded-lg p-1">
           <button
             onClick={zoomOut}
             aria-label="Zoom out"
-            className="flex h-7 w-7 items-center justify-center rounded-md text-mist transition-colors hover:bg-ink-3 hover:text-teal light:text-ink-2 light:hover:bg-paper-3"
+            className="flex h-7 w-7 items-center justify-center rounded-md text-mist transition-colors hover:bg-white/5 hover:text-teal light:text-ink-2 light:hover:bg-black/5"
           >
             −
           </button>
@@ -67,14 +67,14 @@ export function CompareViewer({ river }: { river: River }) {
           <button
             onClick={zoomIn}
             aria-label="Zoom in"
-            className="flex h-7 w-7 items-center justify-center rounded-md text-mist transition-colors hover:bg-ink-3 hover:text-teal light:text-ink-2 light:hover:bg-paper-3"
+            className="flex h-7 w-7 items-center justify-center rounded-md text-mist transition-colors hover:bg-white/5 hover:text-teal light:text-ink-2 light:hover:bg-black/5"
           >
             +
           </button>
           <button
             onClick={reset}
             aria-label="Reset zoom"
-            className="ml-1 flex h-7 items-center rounded-md px-2 font-mono text-[10px] uppercase tracking-wide text-mist transition-colors hover:bg-ink-3 hover:text-teal light:text-ink-2 light:hover:bg-paper-3"
+            className="ml-1 flex h-7 items-center rounded-md px-2 font-mono text-[10px] uppercase tracking-wide text-mist transition-colors hover:bg-white/5 hover:text-teal light:text-ink-2 light:hover:bg-black/5"
           >
             Reset
           </button>
@@ -98,9 +98,10 @@ export function CompareViewer({ river }: { river: River }) {
       </ViewerFrame>
 
       {mode === "change" && (
-        <div className="mt-3 rounded-lg border border-teal/25 bg-ink-2/60 px-3.5 py-2.5 light:bg-paper-2/60">
+        <div className="glass-panel mt-3 rounded-lg px-3.5 py-2.5">
           {changeStatus.loading && (
-            <p className="font-mono text-[11px] uppercase tracking-widest text-teal">
+            <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-teal">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-teal" />
               Computing change map from image pixels…
             </p>
           )}
@@ -111,7 +112,7 @@ export function CompareViewer({ river }: { river: River }) {
           )}
           {!changeStatus.loading && !changeStatus.error && (
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-              <span className="font-mono text-[11px] text-teal">
+              <span className="font-mono text-[13px] font-medium text-teal">
                 ≈{changeStatus.changedPct ?? "–"}% of the frame flagged as visually changed
               </span>
               <label className="flex flex-1 min-w-[160px] items-center gap-2 font-mono text-[10px] uppercase tracking-wide text-mist/80 light:text-ink-2/70">
@@ -137,7 +138,8 @@ export function CompareViewer({ river }: { river: River }) {
         </div>
       )}
 
-      <p className="mt-2.5 text-center font-mono text-[10px] text-mist/50 light:text-ink-2/50">
+      <p className="mt-2.5 flex items-center justify-center gap-1.5 text-center font-mono text-[10px] text-mist/50 light:text-ink-2/50">
+        <span className="hidden h-1 w-1 rounded-full bg-teal/50 sm:inline-block" />
         Scroll or pinch to zoom · drag to pan when zoomed · {river.sourceCredit}
       </p>
     </div>

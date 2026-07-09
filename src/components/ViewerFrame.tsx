@@ -9,19 +9,19 @@ export function ViewerFrame({ children, scanKey }: { children: ReactNode; scanKe
     return () => clearTimeout(t);
   }, [scanKey]);
 
-  const ticks = Array.from({ length: 9 });
+  const ticks = Array.from({ length: 13 });
 
   return (
-    <div className="relative rounded-xl border border-teal-dim/40 bg-ink-2 p-2 shadow-[0_0_0_1px_rgba(47,184,172,0.05)] light:border-paper-3 light:bg-paper-2 sm:p-3">
+    <div className="glass-panel relative rounded-xl p-2 shadow-[0_8px_32px_rgba(0,0,0,0.35)] sm:p-3">
       {/* corner brackets */}
       {["top-1 left-1", "top-1 right-1", "bottom-1 left-1", "bottom-1 right-1"].map((pos, i) => (
         <span
           key={pos}
-          className={`pointer-events-none absolute ${pos} h-3.5 w-3.5 border-teal/70 ${
-            i === 0 ? "border-l-2 border-t-2 rounded-tl-sm" : ""
-          } ${i === 1 ? "border-r-2 border-t-2 rounded-tr-sm" : ""} ${
-            i === 2 ? "border-l-2 border-b-2 rounded-bl-sm" : ""
-          } ${i === 3 ? "border-r-2 border-b-2 rounded-br-sm" : ""}`}
+          className={`pointer-events-none absolute ${pos} h-4 w-4 border-teal/60 ${
+            i === 0 ? "border-l-2 border-t-2 rounded-tl-md" : ""
+          } ${i === 1 ? "border-r-2 border-t-2 rounded-tr-md" : ""} ${
+            i === 2 ? "border-l-2 border-b-2 rounded-bl-md" : ""
+          } ${i === 3 ? "border-r-2 border-b-2 rounded-br-md" : ""}`}
         />
       ))}
 
@@ -32,7 +32,7 @@ export function ViewerFrame({ children, scanKey }: { children: ReactNode; scanKe
         ))}
       </div>
 
-      <div className="relative overflow-hidden rounded-lg border border-ink-3 bg-black light:border-paper-3">
+      <div className="relative overflow-hidden rounded-lg border border-white/10 bg-black light:border-black/10">
         {children}
         {showScan && (
           <div
@@ -40,6 +40,10 @@ export function ViewerFrame({ children, scanKey }: { children: ReactNode; scanKe
             className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-teal/25 via-teal/5 to-transparent animate-scan"
           />
         )}
+        {/* corner readout, purely decorative — reinforces the "mission control" feel */}
+        <div className="pointer-events-none absolute bottom-2 right-2 hidden rounded border border-white/10 bg-black/50 px-2 py-1 font-mono text-[9px] uppercase tracking-widest text-teal/70 backdrop-blur-sm sm:block">
+          Feed: SAT_01
+        </div>
       </div>
     </div>
   );

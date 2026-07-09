@@ -3,26 +3,30 @@
 @custom-variant light (&:where(.light, .light *));
 
 @theme {
-  /* ---- Color tokens ---- */
-  --color-ink: #0A1A1F;
-  --color-ink-2: #0F262B;
-  --color-ink-3: #163136;
-  --color-paper: #E7EBE3;
-  --color-paper-2: #DCE1D6;
-  --color-paper-3: #CBD2C3;
-  --color-teal: #2FB8AC;
-  --color-teal-dim: #1F8378;
-  --color-amber: #E2A23D;
-  --color-danger: #E0503C;
-  --color-mist: #9FB4B1;
+  /* ---- Color tokens — "Obsidian Horizon" system ---- */
+  --color-ink: #0b0e14;
+  --color-ink-2: #171a21;
+  --color-ink-3: #262a32;
+  --color-paper: #eef1f5;
+  --color-paper-2: #e2e6ec;
+  --color-paper-3: #ccd2d9;
+  --color-teal: #00d1ff;
+  --color-teal-dim: #0b7f99;
+  --color-teal-tint: #a4e6ff;
+  --color-amber: #ff8a3d;
+  --color-amber-dim: #b35c1f;
+  --color-danger: #ff5c66;
+  --color-danger-dim: #93000a;
+  --color-mist: #aab4c2;
 
   /* ---- Fonts ---- */
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   --animate-scan: scan 2.4s ease-in-out infinite;
   --animate-ticker: ticker 32s linear infinite;
+  --animate-pulse-glow: pulse-glow 2.2s ease-in-out infinite;
 }
 
 @keyframes scan {
@@ -35,6 +39,12 @@
 @keyframes ticker {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
+}
+
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 0 0 rgba(0, 209, 255, 0.35); }
+  70% { box-shadow: 0 0 0 9px rgba(0, 209, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 209, 255, 0); }
 }
 
 html {
@@ -50,11 +60,16 @@ body {
   color: var(--color-mist);
   -webkit-font-smoothing: antialiased;
   overscroll-behavior-y: none;
+  background-image:
+    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(0, 209, 255, 0.08), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 0%, rgba(255, 138, 61, 0.05), transparent 55%);
+  background-attachment: fixed;
 }
 
 html.light body {
   background: var(--color-paper);
   color: var(--color-ink-3);
+  background-image: none;
 }
 
 ::selection {
@@ -83,4 +98,86 @@ html.light body {
 :focus-visible {
   outline: 2px solid var(--color-teal);
   outline-offset: 2px;
+}
+
+/* ---- Obsidian Horizon surface system ---- */
+
+/* Glassmorphic panel: translucent surface, blur, top/left highlight, bottom/right dim */
+.glass-panel {
+  background: color-mix(in oklab, var(--color-ink-2) 78%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+html.light .glass-panel {
+  background: color-mix(in oklab, var(--color-paper-2) 82%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(10, 26, 31, 0.1);
+  border-left: 1px solid rgba(10, 26, 31, 0.08);
+  border-right: 1px solid rgba(10, 26, 31, 0.05);
+  border-bottom: 1px solid rgba(10, 26, 31, 0.05);
+}
+
+/* Higher-elevation glass (popovers, sticky header) */
+.glass-hud {
+  background: color-mix(in oklab, var(--color-ink) 62%, transparent);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(164, 230, 255, 0.14);
+}
+html.light .glass-hud {
+  background: color-mix(in oklab, var(--color-paper) 78%, transparent);
+  border: 1px solid rgba(10, 26, 31, 0.08);
+}
+
+/* Subtle inner glow for elevated glass edges */
+.inner-glow {
+  box-shadow: inset 0 1px 1px rgba(164, 230, 255, 0.12);
+}
+
+/* Faint technical blueprint grid, used as a background wash */
+.technical-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+html.light .technical-grid {
+  background-image:
+    linear-gradient(rgba(10, 26, 31, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 26, 31, 0.045) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.pulse-glow {
+  animation: var(--animate-pulse-glow);
+}
+
+/* Reusable HUD corner brackets — apply to a `relative` positioned parent */
+.hud-corners::before,
+.hud-corners::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  border-color: color-mix(in oklab, var(--color-teal) 70%, transparent);
+}
+.hud-corners::before {
+  top: 4px;
+  left: 4px;
+  border-left: 2px solid;
+  border-top: 2px solid;
+  border-top-left-radius: 2px;
+}
+.hud-corners::after {
+  bottom: 4px;
+  right: 4px;
+  border-right: 2px solid;
+  border-bottom: 2px solid;
+  border-bottom-right-radius: 2px;
 }

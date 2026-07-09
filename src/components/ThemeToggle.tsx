@@ -7,10 +7,10 @@ export function ThemeToggle({ theme, onToggle }: { theme: Theme; onToggle: () =>
       onClick={onToggle}
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
       title={isDark ? "Switch to light theme" : "Switch to dark theme"}
-      className="group relative flex h-9 w-16 shrink-0 items-center rounded-full border border-teal-dim/40 bg-ink-3/60 px-1 transition-colors hover:border-teal light:border-paper-3 light:bg-paper-2"
+      className="group relative flex h-9 w-16 shrink-0 items-center rounded-full border border-white/10 bg-black/25 px-1 transition-colors hover:border-teal/50 light:border-black/10 light:bg-white/50"
     >
       <span
-        className={`flex h-7 w-7 items-center justify-center rounded-full bg-teal text-ink shadow-sm transition-transform duration-300 ${
+        className={`flex h-7 w-7 items-center justify-center rounded-full bg-teal text-ink shadow-[0_0_12px_rgba(0,209,255,0.45)] transition-transform duration-300 ${
           isDark ? "translate-x-0" : "translate-x-[28px]"
         }`}
       >
