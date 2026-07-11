@@ -2,6 +2,17 @@ import { useCallback, useRef, useState } from "react";
 import type { River } from "../types/river";
 import { YearBadge } from "./YearBadge";
 
+/** Baseline zoom applied to both layers so the waterway itself is legible
+ * immediately, without the visitor needing to pinch/scroll first. Both
+ * images are scaled by the exact same factor from the exact same origin,
+ * so the two layers stay pixel-aligned as the slider is dragged. */
+const BASE_ZOOM = 1.22;
+
+/** Below this slider position the "then" layer is clipped down to a sliver
+ * (or nothing) — hide its badge rather than label an essentially invisible
+ * strip. Mirrored at the top end for the "now" badge. */
+const HIDE_MARGIN = 7;
+
 export function SplitSlider({ river }: { river: River }) {
   const [pos, setPos] = useState(50);
   const outerRef = useRef<HTMLDivElement | null>(null);
@@ -40,12 +51,19 @@ export function SplitSlider({ river }: { river: River }) {
     if (e.key === "End") setPos(99);
   };
 
+  // At very low `pos`, the "then" layer is clipped to almost nothing, so
+  // the viewer is effectively looking at "now" — hide the "Then" badge.
+  // At very high `pos`, the reverse is true — hide the "Now" badge.
+  const showThenBadge = pos > HIDE_MARGIN;
+  const showNowBadge = pos < 100 - HIDE_MARGIN;
+
   return (
-    <div ref={outerRef} className="absolute inset-0">
+    <div ref={outerRef} className="absolute inset-0 overflow-hidden">
       <img
         src={river.now.src}
         alt={`${river.name}, ${river.now.year} satellite view`}
         className="absolute inset-0 h-full w-full object-cover"
+        style={{ transform: `scale(${BASE_ZOOM})`, transformOrigin: "center center" }}
         draggable={false}
       />
       <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
@@ -53,16 +71,27 @@ export function SplitSlider({ river }: { river: River }) {
           src={river.then.src}
           alt={`${river.name}, ${river.then.year} satellite view`}
           className="absolute inset-0 h-full w-full object-cover"
+          style={{ transform: `scale(${BASE_ZOOM})`, transformOrigin: "center center" }}
           draggable={false}
         />
       </div>
 
-      <YearBadge year={river.then.year} label="Then" align="left" />
-      <YearBadge year={river.now.year} label="Now" align="right" tone="danger" />
+      <div
+        className="absolute inset-0 z-10 transition-opacity duration-300 ease-out"
+        style={{ opacity: showThenBadge ? 1 : 0 }}
+      >
+        <YearBadge year={river.then.year} label="Then" align="left" />
+      </div>
+      <div
+        className="absolute inset-0 z-10 transition-opacity duration-300 ease-out"
+        style={{ opacity: showNowBadge ? 1 : 0 }}
+      >
+        <YearBadge year={river.now.year} label="Now" align="right" tone="danger" />
+      </div>
 
       {/* handle line */}
       <div
-        className="absolute inset-y-0 z-20 w-0.5 bg-paper/90 shadow-[0_0_8px_rgba(0,0,0,0.5)]"
+        className="pointer-events-none absolute inset-y-0 z-20 w-0.5 bg-paper/90 shadow-[0_0_8px_rgba(0,0,0,0.5)]"
         style={{ left: `${pos}%` }}
       />
       <div

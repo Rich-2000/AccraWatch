@@ -74,9 +74,10 @@ export const rivers: River[] = [
     shortName: "Chemu",
     waterBody: "Lagoon",
     area: "Tema, Greater Accra",
-    then: { src: "/images/chemu-lagoon-then-2015.jpg", year: 2015, width: 1600, height: 678 },
-    now: { src: "/images/chemu-lagoon-now-2024.jpg", year: 2024, width: 1600, height: 673 },
-    aspectRatio: 1600 / 678,
+    then: { src: "/images/chemu-lagoon-then-2009.jpg", year: 2009, width: 1366, height: 549 },
+    now: { src: "/images/chemu-lagoon-now-2026.jpg", year: 2026, width: 1366, height: 563 },
+    aspectRatio: 1366 / 549,
+    changeMapFocus: { x: 0.24, y: 0.0, width: 0.27, height: 0.56 },
     summary:
       "Chemu Lagoon sits inside Tema's industrial harbour city, hemmed in by factories, fuel depots and dense housing. Between the two captures, the surrounding built footprint thickens noticeably while the lagoon channel itself grows narrower and darker, consistent with long-standing reports of industrial effluent and waste discharge.",
     causes: [

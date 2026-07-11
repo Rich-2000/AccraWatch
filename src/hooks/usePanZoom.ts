@@ -21,7 +21,14 @@ function clampPan(state: PanZoomState, containerW: number, containerH: number): 
 }
 
 export function usePanZoom<T extends HTMLElement>() {
-  const containerRef = useRef<T | null>(null);
+  // A state-backed callback ref (rather than a plain useRef) so that if the
+  // underlying DOM node is ever swapped out — e.g. the container remounts
+  // when the viewer moves in/out of the fullscreen portal — the effect
+  // below reliably reattaches its listeners to the *new* node instead of
+  // silently keeping stale listeners on a detached element.
+  const [container, setContainer] = useState<T | null>(null);
+  const containerRef = useCallback((node: T | null) => setContainer(node), []);
+
   const [state, setState] = useState<PanZoomState>({ scale: 1, x: 0, y: 0 });
   const dragging = useRef(false);
   const lastPos = useRef({ x: 0, y: 0 });
@@ -29,26 +36,28 @@ export function usePanZoom<T extends HTMLElement>() {
 
   const reset = useCallback(() => setState({ scale: 1, x: 0, y: 0 }), []);
 
-  const zoomBy = useCallback((delta: number, cx?: number, cy?: number) => {
-    setState((prev) => {
-      const el = containerRef.current;
-      const rect = el?.getBoundingClientRect();
-      const nextScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, prev.scale + delta));
-      if (nextScale === prev.scale) return prev;
-      if (!rect) return { ...prev, scale: nextScale };
+  const zoomBy = useCallback(
+    (delta: number, cx?: number, cy?: number) => {
+      setState((prev) => {
+        const rect = container?.getBoundingClientRect();
+        const nextScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, prev.scale + delta));
+        if (nextScale === prev.scale) return prev;
+        if (!rect) return { ...prev, scale: nextScale };
 
-      const originX = cx !== undefined ? cx - rect.left - rect.width / 2 : 0;
-      const originY = cy !== undefined ? cy - rect.top - rect.height / 2 : 0;
-      const ratio = nextScale / prev.scale;
-      const nextX = originX - (originX - prev.x) * ratio;
-      const nextY = originY - (originY - prev.y) * ratio;
+        const originX = cx !== undefined ? cx - rect.left - rect.width / 2 : 0;
+        const originY = cy !== undefined ? cy - rect.top - rect.height / 2 : 0;
+        const ratio = nextScale / prev.scale;
+        const nextX = originX - (originX - prev.x) * ratio;
+        const nextY = originY - (originY - prev.y) * ratio;
 
-      return clampPan({ scale: nextScale, x: nextX, y: nextY }, rect.width, rect.height);
-    });
-  }, []);
+        return clampPan({ scale: nextScale, x: nextX, y: nextY }, rect.width, rect.height);
+      });
+    },
+    [container]
+  );
 
   useEffect(() => {
-    const el = containerRef.current;
+    const el = container;
     if (!el) return;
 
     const onWheel = (e: WheelEvent) => {
@@ -122,7 +131,7 @@ export function usePanZoom<T extends HTMLElement>() {
       el.removeEventListener("touchend", onTouchEnd);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [zoomBy, reset, state.scale]);
+  }, [container, zoomBy, reset, state.scale]);
 
   const zoomIn = useCallback(() => zoomBy(0.5), [zoomBy]);
   const zoomOut = useCallback(() => zoomBy(-0.5), [zoomBy]);

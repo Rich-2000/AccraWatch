@@ -11,21 +11,32 @@ Interior Ministry reported killed 12 people and affected over 38,800 residents.
 ## Features
 
 - **Split-view comparison** — drag (or use arrow keys on) a slider to reveal the
-  then/now satellite images, with year badges on each side.
+  then/now satellite images, with year badges on each side. Badges fade out
+  automatically once their side of the slider is essentially fully hidden, and
+  both layers carry a baseline zoom so the waterway itself reads clearly without
+  any manual zooming.
 - **Single-year view** — inspect just the "then" or "now" capture full-frame.
-- **Change map** — a white sketch/outline overlay computed *live, on-device* from
-  the real pixel differences between the two photos (canvas-based grayscale diff
-  + edge detection). Not mocked, not pre-baked — every run reads the actual image
-  data. Labelled clearly as an approximate visual change map, not a scientific
-  land-cover survey, since capture angle/zoom vary slightly between years.
+- **Change map** — traces the actual water body in the "then" photograph (via
+  on-device texture/smoothness segmentation of the real pixels — water and
+  channels photograph smoother than rooftops, roads, and vegetation) and draws
+  that historical boundary as a dashed line over the "now" photograph, so you
+  can see exactly how far the bank has receded and where settlement has moved
+  in. The same segmentation run on both years also yields a real, computed
+  "extent reduced by ≈X%" figure. Nothing here is mocked — every run reads the
+  actual image pixels — and it's labelled as a computed approximation, not an
+  official hydrological survey, since these are ordinary photographs rather
+  than georeferenced multispectral data.
+- **Fullscreen mode** — expand any mode (split / then / now / change map) into
+  a dimmed, blurred fullscreen viewer. Tap the backdrop, press Esc, or hit the
+  close button to exit; the mode toolbar and zoom controls stay fully usable
+  inside it.
 - **Zoom & pan** — mouse wheel / trackpad, pinch-to-zoom on touch, drag to pan,
-  double-click to reset — works identically in every view mode.
+  double-click to reset — works identically in every view mode, including
+  fullscreen.
 - **Rectangular, distortion-free frame** — every river keeps its own fixed aspect
   ratio in both single and split views (object-fit: cover, never stretched).
 - **Full dark/light theme** — persisted to `localStorage`, respects the system
   preference on first visit, toggle in the header.
-- **Live flood-context banner and section** — real, sourced statistics from the
-  June 2026 disaster (Reuters, Al Jazeera, GBC Ghana, UNDP Ghana).
 - Fully responsive: phone, tablet, and desktop layouts; keyboard accessible;
   respects `prefers-reduced-motion`.
 
@@ -62,20 +73,20 @@ npm run preview   # serve the production build locally
 ```
 src/
   data/rivers.ts          River metadata: image paths, years, causes, flood context
-  types/river.ts          Shared TypeScript types
+  types/river.ts           Shared TypeScript types
   hooks/
-    useTheme.ts           Dark/light theme state + persistence
-    usePanZoom.ts         Wheel/drag/pinch zoom & pan
+    useTheme.ts            Dark/light theme state + persistence
+    usePanZoom.ts           Wheel/drag/pinch zoom & pan
   utils/
-    imageDiff.ts          Canvas-based real pixel-diff change map generator
+    riverOutline.ts         On-device water-body segmentation + boundary tracing
   components/
     Header.tsx, ThemeToggle.tsx
-    DisasterBanner.tsx, DisasterContextSection.tsx
     RiverSelector.tsx
-    CompareViewer.tsx      Mode toolbar + zoom controls + frame
+    CompareViewer.tsx       Mode toolbar + zoom controls + frame + fullscreen toggle
+    FullscreenViewer.tsx    Dimmed/blurred fullscreen portal, tap-outside-to-close
     ViewerFrame.tsx         Cartographic frame / scan-line decoration
     PanZoomStage.tsx
-    SplitSlider.tsx, SingleView.tsx, ChangeOverlay.tsx
+    SplitSlider.tsx, SingleView.tsx, RiverOutlineOverlay.tsx
     YearBadge.tsx
     InfoPanel.tsx, Footer.tsx
 public/images/            The 12 satellite photographs (then/now x 6 waterways)

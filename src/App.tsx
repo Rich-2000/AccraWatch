@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import { rivers } from "./data/rivers";
 import { useTheme } from "./hooks/useTheme";
 import { Header } from "./components/Header";
-import { DisasterBanner } from "./components/DisasterBanner";
 import { RiverSelector } from "./components/RiverSelector";
 import { CompareViewer } from "./components/CompareViewer";
 import { InfoPanel } from "./components/InfoPanel";
@@ -16,7 +15,6 @@ function App() {
   return (
     <div className="technical-grid min-h-screen bg-ink text-mist light:bg-paper light:text-ink-3">
       <Header theme={theme} onToggleTheme={toggle} />
-      <DisasterBanner />
 
       <main className="mx-auto max-w-[1440px] px-4 py-6 sm:px-6 sm:py-8 lg:px-10">
         <div className="mb-6 flex items-end justify-between gap-3">
